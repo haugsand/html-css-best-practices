@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <title>Keiken-workshop</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# HTML- og CSS-workshop
+
+## Keiken, 21. september 2017
+
+### Magnus Haugsand
+
+---
+
+# Mål for workshopen
+
+### 1. Forstå viktigheten av god og gjennomtenkt HTML- og CSS-kode
+### 2. Lære smarte teknikker for å øke kodekvaliteten
+### 3. Lære mer om tilgjengelighet og universell utforming
+### 4. Gode, faglige diskusjoner
+
+
+---
+
+# Agenda
+
+1. Semantisk HTML
+2. HTML-skjema
+3. CSS' karakteristiske egenskaper
+4. CSS-selektorer
+5. Organisering av CSS
+6. Størrelser og avstander
+7. CSS-layout
+8. Post- og preprosessorer
+9. CSS og React
+
+
+---
+
+# Et HTML-dokument
+
+```html
+<body>
+<div>
+<div>Kantega</div>
+<div>
+<div><a href="/tjenester">Tjenester</a></div>
+<div><a href="/jobb">Blogg</a></div>
+</div>
+</div>
+<div>
+<div>Så du tror du kan forvalte?</div>
+<div>
+<div>Publisert</div>
+<div>20. april 2016</div>
+<div>Skrevet av</div>
+<div>Carl Fredrik Hersoug</div>
+</div>
+<div>Du kan programmere. Eller teste. Eller lede prosjekter. 
+Gjerne alt dette, og mer til. Men kan du forvalte?</div>
+<div>Hvordan havnet du her?</div>
+<div>La oss først tenke over hvordan du havnet i rollen som forvalter. 
+Noen hadde i sin tid et behov, og fikk laget flere systemer.</div>
+</div>
+</body>
+```
+
+---
+
+# Et HTML-dokument med innrykk
+
+```html
+<body>
+    <div>
+        <div>Kantega</div>
+        <div>
+            <div><a href="/tjenester">Tjenester</a></div>
+            <div><a href="/jobb">Blogg</a></div>
+        </div>
+    </div>
+    <div>
+        <div>Så du tror du kan forvalte?</div>
+        <div>
+            <div>Publisert</div>
+            <div>20. april 2016</div>
+            <div>Skrevet av</div>
+            <div>Carl Fredrik Hersoug</div>
+        </div>
+
+        <div>Du kan programmere. Eller teste. Eller lede prosjekter. 
+        Gjerne alt dette, og mer til. Men kan du forvalte?</div>
+
+        <div>Hvordan havnet du her?</div>
+        <div>La oss først tenke over hvordan du havnet i rollen som forvalter. 
+        Noen hadde i sin tid et behov, og fikk laget flere systemer.</div>
+    </div>
+</body>
+```
+
+???
+
+Et dokument med bare div-elementer. Kildekoden er vanskelig å lese, og umulig å tolke for skjermlesere
+
+---
+
+# Et semantisk HTML-dokument
+
+```html
+<body>
+    <header>
+        <h1>Kantega</h1>
+        <ul>
+            <li><a href="/tjenester">Tjenester</a></li>
+            <li><a href="/jobb">Blogg</a></li>
+        </ul>
+    </header>
+    <article>
+        <h2>Så du tror du kan forvalte?</h2>
+        <dl>
+            <dt>Publisert</dt>
+            <dd>20. april 2016</dd>
+            <dt>Skrevet av</dt>
+            <dd>Carl Fredrik Hersoug</dd>
+        </dl>
+
+        <p>Du kan programmere. Eller teste. Eller lede prosjekter. 
+        Gjerne alt dette, og mer til. Men kan du forvalte?</p>
+
+        <h3>Hvordan havnet du her?</h3>
+        <p>La oss først tenke over hvordan du havnet i rollen som forvalter. 
+        Noen hadde i sin tid et behov, og fikk laget flere systemer.</p>
+    </article>
+</body>
+```
+
+???
+
+Semantisk HTML: Typing
+Talenettlesere, søkemotorer. 
+
+Mer lettlest kode for utviklere. Hva er hensikten med dette? Section i stedet for div, for eksempel
+
+
+---
+
+# Basis-elementer
+
+```html
+<p>
+    Avsnitt med tekst.
+</p>
+
+```
+
+```html
+<ul>
+    <li>En punktliste</li>
+    <li>En punktliste</li>
+</ul>
+
+```
+
+```html
+<ol>
+    <li>En nummerert liste</li>
+    <li>En nummerert liste</li>
+</ol>
+
+```
+```html
+<dl>
+    <dt>Tittel</dt>
+    <dd>Beskrivelse</dd>
+</dl>
+
+```
+
+???
+
+P: I utgangspunktet skal det meste av tekst være i avsnitt.
+
+UL: En liste med ting skal inn i en liste. For eksempel en meny.
+Talenettlesere leser opp antall elementer i listen
+
+OL: En liste der rekkefølgen har noe å si.
+
+DL: Name-value groups may be terms and definitions, metadata topics and values, questions and answers, or any other groups of name-value data. 
+
+
+---
+
+# Overskrifter = En hierarkisk struktur
+
+```html
+<h1>Kantega.no</h1>
+
+    <h2>Artikler</h2>
+
+        <h3>Integrasjon - må det være så vanskelig?</h3>
+
+        <h3>Mobiltelefonen som nøkkel</h3>
+
+            <h4>Hvordan virker det?</h4>
+
+            <h4>BankID på mobil</h4>
+
+    <h2>Tjenester</h2>
+
+        <h3>Systemutvikling</h3>
+
+        <h3>Testing</h3>
+
+
+```
+
+* Ikke hopp over overskriftsnivåer
+* h1-h6 kan brukes til å lage en innholdsfortegnelse (document outline)
+
+
+---
+
+# Nye HTML5-elementer
+
+
+```html
+<article></article>
+```
+
+Representerer en del av HTML-dokumentet som er selvstendig, og potensielt kan gjenbrukes i andre sammenhenger. 
+For eksempel et blogginnlegg. 
+
+```html
+<section></section>
+```
+
+Brukes til tematisk gruppering av innhold. For eksempel kapitler og kategorier. 
+
+
+```html
+<nav></nav>
+```
+
+Representerer en del av HTML-dokumentet som inneholder lenker til andre nettsider eller interne lenker. For eksempel en meny.
+
+???
+
+Widgets
+
+---
+
+
+```html
+<aside></aside>
+```
+
+Brukes til å gruppere innhold som er tangentielt relatert til nettsidens øvrige innhold. For eksempel en liste over relaterte artikler, eller en klassisk sidebar.
+
+```html
+<header></header>
+```
+
+Brukes til å gruppere innledende innhold i en seksjon. For eksempel en logo, en overskrift og en innholdsfortegnelse.
+
+
+```html
+<footer></footer>
+```
+
+Representerer en bunntekst. For eksempel informasjon om kopirett og kontaktinformasjon.
+
+```html
+<main></main>
+```
+
+Representerer den delen av nettsiden som har hovedinnholdet. For eksempel en artikkel eller en liste med nyheter, men ikke nettstedets navigasjon. Kan kun brukes én gang per HTML-dokument.
+
+???
+
+Elementene kan brukes flere ganger i et dokument, bortsett fra main.
+
+Hjelper på lesbarhet
+Unngå unødvendige container-elementer
+
+
+---
+
+# Bilder og tilgjengelighet
+
+Bruk alternativ tekst for bilder som ikke utelukkende er dekorative.
+
+```html
+<h1><img src="logo.svg" alt="Kantega" /></h1>
+```
+
+Angi alt-attributtet på dekorative bilder med en tom verdi.
+
+```html
+<p>
+    Generisk tekst om prosjektledelse ...
+    <img src="stockphoto.jpg" alt="" />
+</p>
+```
+
+Ikoner som supplerer tekst er dekorative
+
+```html
+<li>
+    <img src="tjenester-ikon.svg" alt="" />
+    <a href="/tjenester">Tjenester</a>
+</li>
+```
+
+(Og tekst+ikon er alltid bedre enn å bare ha et ikon)
+
+???
+
+alt-tekst på bilder. Tom tekst er bedre enn ingen attributt. 
+Om det er ikon i tillegg til tekst, trengs det ikke alt-attributt
+UX: Tekst er alltid bedre.
+
+---
+
+# Knapper og lenker
+
+## Lenker brukes til å navigere til en ny URL.
+
+```html
+<a href="/tjenester">Tjenester</a>
+```
+
+## Knapper brukes for å tilføye dynamisk oppførsel
+
+```html
+<button type="button" onClick="handleCLick()">Klikk her</button>
+```
+
+## Ikke bruk lenker som knapper
+
+```html
+<a href="#" onClick="handleCLick()">Klikk her</a>
+
+```
+
+---
+
+
+## Ikke endre musepekeren på knapper:
+
+```css
+button {
+  cursor: pointer;
+}
+```
+
+Brukere tror det er en lenke, og forventer at den oppfører seg som en lenke.
+
+## Ikke gjør andre elementer klikkbare
+
+```html
+<span onClick="handleCLick()">Klikk her</span>
+```
+
+Det er ikke mulig å bruke tab-tasten for å få fokus på en span. 
+
+
+???
+
+Riktig kontekstmeny når du høyreklikker
+
+---
+
+
+NB: Om du ikke angir et type-attributt på en button, vil den få standardverdien type="submit"
+
+
+## Bruk input submit når du har et skjema
+
+```html
+<form>
+    <label>
+        Navn <input type="text" id="navn" />
+    </label>
+    <input type="submit" value="Send forespørsel" />
+</form>
+```
+
+## Alltid angi type="button"
+
+```html
+<button type="button" onClick="handleCLick()">Klikk her</button>
+```
+
+
+---
+
+# HTML-skjema
+
+```html
+<form>
+    <label for="navn">Navn</label>
+    <input type="text" id="navn" />
+
+    <label for="tlf">Telefonnummer</label>
+    <input type="text" id="tlf" />
+    <p>Eksempel: 47 40 13 05</p>
+
+    <input type="submit" value="Send inn" />
+</form>
+```
+
+* Bruk form-elementet når brukeren skal sende inn data
+* Bruk label til å fortelle hva input-elementet skal inneholde
+* Ikke bruk placeholder-attributtet som label
+* Generelt: Vær forsiktig med å bruke placeholder-attributtet
+* Gjerne ha en forklarende tekst under input-feltet, med et eksempel
+
+---
+
+# Validering
+
+* Valider hele skjemaet når brukeren trykker på submit
+* Valider et felt når brukeren forlater det
+* Vis feilmeldinger i nærheten av input-feltet. Bruk aria-attributter til å koble dem sammen
+* Fjern valideringsfeil mens brukeren oppdaterer feltet
+* Ikke bruk disabled-attributten på submit-knappen om skjemaet ikke validerer
+
+
+
+???
+
+Bruk form, validering. Enter-tasten submitter
+
+---
+
+class: center, middle
+
+# CSS
+
+## Cascading Style Sheets
+
+Sett pris på og utnytt språkets karakteristiske egenskaper!
+
+???
+
+Hva er det første du tenker på når du hører CSS?
+
+CSS er ikke vanskelig, men annerledes. Du programmerer ikke, du definerer utseendet til et HTML-dokument. CSS må være annerledes enn andre språk. Stil/utseende ER globalt. 
+
+---
+
+
+# **Cascading** Style Sheets
+
+Utnytt den første C-en: CSS-regler bygger på hverandre.
+
+```html
+<button type="button" class="add-value">Legg til verdi</button>
+```
+
+```css
+button {
+  border-radius: 8rem;
+}
+
+.add-value {
+  background-color: green;
+  color: white;
+}
+
+.add-value:hover {
+  background-color: black;
+}
+```
+
+
+---
+
+
+# Arv er bra
+
+
+```html
+<body>
+    <h1>Kantega</h1>
+    <p>Vi eier vårt eget IT-selskap. Det gjør noe med oss.</p>
+
+    ...
+
+    <footer>
+        ...
+
+        <p>Nesten litt magisk</p>
+    </footer>
+</body>
+```
+
+```css
+body {
+  color: rgba(0, 0, 0, 0.7)
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+}
+
+footer {
+  color: rgba(0, 0, 0, 0.5); 
+  font-size: 1.4rem;
+}
+```
+
+???
+
+Arver fra foreldreelementer. Slipper å skrive all kode på nytt for hvert element. Selektorer med ulik spesifisitet
+DRY i praksis. 
+
+
+
+---
+
+# CSS-selektorer
+
+Flere CSS-selektorer kan kombineres, og det kan regnes ut en spesifisitet for CSS-regelen.
+
+En CSS-regel med høy spesifisitet prioriteres foran en CSS-regel med lavere spesifisitet.
+
+Om to CSS-regler har samme spesifisitet, prioriteres CSS-regelen som står nederst i kildekoden. 
+
+
+---
+
+
+#### Spesifisitet = 1
+
+* Type-selektorer (h1)
+* Pseudo-elementer (::before) 
+
+
+#### Spesifisitet = 10
+
+* Class-selektorer (.annonse-tittel)
+* Attributt-selektorer ([type="text"])
+* Pseudo-klasser (:hover) 
+
+
+#### Spesifisitet = 100
+
+* ID-selektorer (#annonse)
+
+
+#### Ingen spesifisitet
+
+* *, +, >, ~, :not()
+
+#### Høyest spesifisitet
+
+* Inline-styles (style="") overstyrer eksterne CSS-filer
+* !important overstyrer alt, også inline-styles
+
+???
+
+Eksempel: element, klasse, id, + mer avanserte
+Spesifisitet 1, 10, 100
+
+!Important.
+
+For enkle nettsteder bruker jeg stort sett element-selektorer, sammmen med foreldre-selektorer.
+
+---
+
+# BEM (Block__Element--Modifier)
+
+```html
+<ul class="orders">
+  <li class="orders__order">
+      <h3 class="orders__bank">Aasen Sparebank</h3>
+      <p class="orders__description">
+        Bankinnskudd med gunstig rente
+      </p>
+      <p class="orders__amount">
+        10 000 000 kroner
+      </p>
+  </li>
+  <li class="orders__order orders__order--expired">
+      <h3 class="orders__bank">Klæbu Sparebank</h3>
+      <p class="orders__description">
+        Bankinnskudd med gunstig rente
+      </p>
+      <p class="orders__amount">
+        10 000 000 kroner
+      </p>
+      <p class="orders__warning">
+        Dette innskuddet har utgått
+      </p>
+  </li>
+</ul>
+```
+
+
+???
+
+
+* Bruk BEM (Block__Element--Modifier)
+* CSS-selektorer skal ha så lav spesifisitet som mulig. I de aller fleste tilfeller skal selektorer bestå av ett klassenavn
+* Aldri bruk ID-selektorer (#navn) 
+
+Pseudo-klasser eller modifiers?
+
+
+Spesifisitet. Semantiske klassenavn. BEM. Bruk i javascript (.js-klasser)
+
+---
+
+# Organisering av CSS-filer
+
+* Del inn CSS-reglene i filer, kategorisert etter hensikt og bruksområde
+* Generelle stil-regler med lav spesifisitet skal importeres først. Spesialiserte stil-regler med høy spesifisitet skal importeres sist
+
+#### Eksempel
+
+```
+1. normalize.css       - Inneholder CSS-regler som nullstiller 
+                         nettleserens standardstiler
+
+2. base.css            - Inneholder generelle CSS-regler for HTML-elementer. 
+                         Inneholder kun element-selektorer
+
+3. layout.css          - Inneholder CSS-regler som styrer nettsidens overordnete layout, 
+                         deriblant media queries og responsiv layout
+ 
+4a. <modulnavn>.css    - Inneholder klasser oppbygd etter BEM
+4b. <modulnavn>.css
+ 
+5. gfx.css             - Inneholder klasser for angivelse av ikoner som bakgrunnsbilder
+
+6. utility.css         - Inneholder utility-klasser som alltid skal overstyre andre 
+                         CSS-deklarasjoner. Bruk én CSS-deklarasjon per klasse, 
+                         og legg til !important
+```
+
+
+???
+
+Utnytt den første Cen i CSS. Cascading
+Hver CSS-regel har en spesifisitet, som regnes ut på samme måte.
+Dersom to regler har samme spesifisitet, er det den sist angitte regelen som teller.
+Del inn filene etter hensikt og bruksområde.
+Generelle regler med lav spesifisitet først. Spesielle regler med høy spesifisitet sist
+1. Normalise/reset. Nullstill browserspesifikk CSS
+2. Base-styles, med kun element-selektorer. All annen CSS bygger på demme
+3. Layout. Sider har gjerne en oveordner layout. Praktisk å samle denne på ett sted. Inkluderer media-queries og responsiv layout
+4. En CSS-fil per side/komponent/blokk. Her finner du selv en logisk inndeling.
+5.. Utilitiy.klasser. Ikke sikkert det er behov for denne, men i mange prosjekter har jeg hatt behov for helt generiske klasser som gjentas ofte. Margin.top: 0; float: left. Spesialtilfeller av klasser i filene ovenfor, men med én CSS-egenskap som er annerledes. Bruker utility-klasser i stedet for å lage en modifier. Her kan du bruke important. Denne filen er helt sist.
+Ikke bruk !Important. Dette er unntak, som bør brukes kun i spesielle tilfeller.
+
+
+
+
+
+---
+
+# Sorter CSS-deklarasjonene alfabetisk
+
+
+```css
+.start-button {
+  height: 4rem;
+  width: 15rem;
+  padding: 0;
+  border-radius: 0.4rem;
+  background: #f67f00;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+```
+
+```css
+.start-button {
+  background: #f67f00;
+  border-radius: 0.4rem;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 4rem;
+  padding: 0;
+  width: 15rem;
+}
+```
+
+Enkelt å lese, skrive og forstå
+
+???
+
+Organisering av CSS-deklarasjoner
+CSS-deklarasjoner kan organiseres på ulike måter: Logisk rekkefllge. Eks, La position, top, left for seg, margin padding border for seg, color og background for seg. I alfabetisk rekkefølge: Etter forbokstav på egenskap. Ingen organisering. Tilfelding hva som kommer først og sist.
+Jeg har opp gjennom tidene forsøkt å sortere deklarasjonene i logisk rekkefølge, men anbefaler å sortere dem alfabetisk: 1. Enkelt regelverk som ikke krever ekstra kapasitet Lett å lese og forstå. Med en logisk rekkefølge må du bruke ekstra tid på å plassere egenskapen riktig, og ulike personer har ulik oppfatning av hva some r riktig. Skal boksmodell eller uutseendet plasseres først, for eksempel? Når det det ikke finnes en organisering i det hele tatt, er det vanskeligere å finne den egenskapen du er ute etter, skal mindre til for å skrive samme egenskap flere ganger. Det krever også mer å slå sammen to CSS-regler. 
+Alfabetisk: Enklest å skrive, og enklest å lese. Selv om dette medfører at position, left og top ikke er rett under hverandre. 
+
+
+
+---
+
+# Angivelse av font-size
+
+```css
+html {
+  font-size: 62.5%; // 10px
+}
+
+body {
+  font-size: 1.6rem; // 16px
+}
+
+.footnote {
+  font-size: 1.4rem; // 14px
+}
+
+```
+
+* Bruk rem som enhet for font-size, i stedet for px. Når du bruker px som enhet, overstyres nemlig nettleserens standardverdi for font-size. 
+* Størrelsen på rem regnes ut i forhold til root-elementet, i motsetning til em, der størrelsen regnes ut i forhold til foreldre-elementet.
+* For å gjøre det enkelt å jobbe med rem-enheter, normaliserer vi font-size til html-elementet, slik at 1rem = 10px. 
+* Bruk også rem for andre egenskaper der det angis en lengde, for eksempel margin og padding.
+
+
+???
+
+Nettlesere har en standardstørrelse: 16px
+Denne kan overstyres via nettleserens innstillinger. I disse dager er det spesielt relevant for mobil nettlesere
+Når du angir font-size i piksler, overstyres denne innstillingen. Du kan zoome inn, samme som i desktop-nettlesere, men da blir linjebredden fort helt feil. 
+Tidligere ble dette løst med em. Det er ikke alltid like lett å vite nøyaktig hvilken størrelse 1em er. Vanskelig å håndtere lister innenfor lister, med font-size 1.1em f.eks. Font-størrelser blir ikke nøyaktig i piksler. 15.4444 f.eks.
+Med rem -- forklaring på rem -- er det lettere å håndtere globale størrelser
+Html, setter prosent for å normalisere 1rem. Standard, 1rem = 10p. 2 rem = 20px, 1.4rem = 14px osv. 
+Sett standard font-size i body. 1.6rem. 
+That’s it
+
+
+---
+
+# Størrelse på avstander
+
+* Bruk en ikke-lineær-skala, med 16px som base-enhet, for å angi luft rundt og innenfor elementer
+* Det begrenser antall størrelser som benyttes, og fører til et mer konsistent design. Samtidig bruker utviklere mindre tid på å vurdere hvilken størrelse som passer best.
+
+## Skala
+
+* XS:   4px  (0.4rem)
+* S:    8px  (0.8rem)
+* M:   16px  (1.6rem)
+* L:   32px  (3.2rem)
+* XL:  64px  (6.4rem)
+
+
+???
+
+
+https://medium.com/eightshapes-llc/space-in-design-systems-188bcbae0d62
+Med enkle, intuitive systemer slipper du å tenke så mye når du skriver kode
+
+
+
+---
+
+class: center, middle
+
+#  Ryddig bruk av margin og padding
+
+
+???
+
+Vær konsekvent!
+
+
+Whitespace er viktig i design. Det bryter opp tekst, og bidrar til å gruppere informasjon som hører sammen
+Luft kan imidlertid angis både ved hjelp av margin og padding. Kan kan angis både på elementene med innhold, og foreldreelementene
+Collapsing margin er en egenskap som er veldig nyttig når du behersker den. Når to elementer er ved siden av hverandre vertikalt, legges ikke marginene sammen, men den største marginen benyttes. Dette bidrar til at det ikke bør uforholdsmessig stor margin mellom elementer
+Collapsing margin er årsaken til at jeg anbefaler å bruke margin til å skape luft mellom elementer. Padding brukes om et supplement, dersom boksen har en bakgrunnsfarge og eventuelt en border. 
+Skal alt innhold ha en fast avstand til venstre / høyre kant? Bruk margin/padding på foreldreelemeentet
+Bruk ;last-child-selektoren til å hindre ekstra luft ettter siste element i et foreldreelement. 
+Bruk padding i stedet for height og line-height til å justere luft innenfor et element. Bevarer flyten, og er mer skalerbart.
+
+
+---
+
+# CSS-layout
+
+## Når bør de ulike teknikkene brukes?
+
+
+* Float
+* Position (absolute, relative, fixed, sticky)
+* Flexbox
+* Grid
+
+???
+
+Ingenting
+
+Floats
+
+Posisjonering
+
+Flexbox
+
+Grids
+
+---
+
+class: center, middle
+
+# SASS
+# LESS
+# PostCSS
+
+
+---
+
+class: center, middle
+
+# CSS og React
+
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
